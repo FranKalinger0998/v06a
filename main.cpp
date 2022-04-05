@@ -12,16 +12,37 @@ bool size_dialog::on_init_dialog(){
 bool size_dialog::on_ok(){
 	return true;
 }
-
+int x = 100;
+int y = 100;
 
 void main_window::on_paint(HDC hdc){
+
+	HBRUSH brush = CreateSolidBrush(RGB(33, 33, 33));
+	RECT mr;
+	
+	
+	GetClientRect(*this, &mr);
+	SetViewportExtEx(hdc, mr.right, mr.bottom, 0);
+	SetMapMode(hdc, MM_ANISOTROPIC);
+
+	SetWindowExtEx(hdc, x, y, 0);
+	for (int i = 0; i < x; i++) {
+		for (int j = (i & 1); j < y; j += 2) {
+			RECT r = { i, j, i + 1, j + 1 };
+			FillRect(hdc, &r, brush);
+		}
+
+	}
+	DeleteObject(brush);
 }
 
 void main_window::on_command(int id){
 	switch(id){
 		case ID_SIZE:
+			
 			break;
 		case ID_COLOR:
+
 			break;
 		case ID_EXIT: 
 			DestroyWindow(*this); 
