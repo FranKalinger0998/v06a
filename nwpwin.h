@@ -20,11 +20,17 @@ public:
 class window
 {
 	HWND hw { 0 };
-
+private:
+	int x, y;
+	COLORREF color;
 protected:
 	virtual tstring class_name();
 	bool register_class(const tstring& name);
 	tstring generate_class_name();
+	int getx() { return x; };
+	int gety() { return y; };
+	COLORREF getcolor() { return color; };
+	
 
 public:
 	bool create(HWND parent, DWORD style, LPCTSTR caption=0, int IdOrMenu=0, 
@@ -32,7 +38,9 @@ public:
 
 	operator HWND();
 	static LRESULT CALLBACK proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-
+	void setx(int gx) { x = gx; };
+	void sety(int gy) { y = gy; };
+	void setcolor(COLORREF gcolor) { color = gcolor; };
 //	messages
 protected:
 	virtual int on_create(CREATESTRUCT*) { return 0; }
@@ -50,6 +58,7 @@ protected:
 	virtual void on_timer(int id) { }
 
 	virtual void on_paint(HDC dc) { }
+
 };
 
 } // namespace
