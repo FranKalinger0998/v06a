@@ -4,9 +4,10 @@
 
 
 
-COLORREF get_color(HWND parent) {
+COLORREF get_color(HWND parent, COLORREF color) {
 	CHOOSECOLOR cc;                 
 	static COLORREF acrCustClr[16];
+	
 	      
 	ZeroMemory(&cc, sizeof(cc));
 	cc.lStructSize = sizeof(cc);
@@ -14,8 +15,10 @@ COLORREF get_color(HWND parent) {
 	cc.lpCustColors = (LPDWORD)acrCustClr;
 	
 	cc.Flags = CC_FULLOPEN | CC_RGBINIT;
-
-	if (ChooseColor(&cc) == TRUE) return cc.rgbResult;
+	cc.rgbResult = color;
+	if (ChooseColor(&cc) == TRUE)
+		return cc.rgbResult;
+	else return cc.rgbResult;
 	
 	
 
@@ -52,7 +55,7 @@ bool size_dialog::on_ok(){
 void main_window::on_paint(HDC hdc){
 
 	HBRUSH brush = CreateSolidBrush(color);
-	HBRUSH brush2 = CreateSolidBrush(RGB(255,255,255));
+	
 	RECT mr;
 	
 	
@@ -61,14 +64,13 @@ void main_window::on_paint(HDC hdc){
 	SetViewportExtEx(hdc, mr.right, mr.bottom, 0);
 	
 	
-	SetWindowExtEx(hdc, getx()*2, gety()*2, 0);
+	SetWindowExtEx(hdc, x*2, y*2, 0);
 	
-	for (int i = 0; i < getx()*2; i += 2) {
-		for (int j = (i & 2); j < gety()*2; j += 4) {
+	for (int i = 0; i < x*2; i += 2) {
+		for (int j = (i & 2); j < y*2; j += 4) {
 			RECT r = { i, j, i + 2, j + 2 };
 			FillRect(hdc, &r, brush);
-			// r = { i+1, j-1, i + 2, j + 2 };
-			//FillRect(hdc, &r, brush2);
+			
 			
 		}
 
@@ -77,11 +79,12 @@ void main_window::on_paint(HDC hdc){
 }
 
 void main_window::on_command(int id){
-	size_dialog s_dlg;
-	s_dlg.x = x;
-	s_dlg.y = y;
+	
 	switch(id){
 		case ID_SIZE:
+			size_dialog s_dlg;
+			s_dlg.x = x;
+			s_dlg.y = y;
 			if (s_dlg.do_modal(0, *this) == IDOK) {
 				
 					
@@ -94,7 +97,7 @@ void main_window::on_command(int id){
 						y = s_dlg.y;
 						InvalidateRect(*this, NULL, true);
 					}
-					 // Throw an exception when a problem arise
+					 
 				
 				
 				
@@ -104,7 +107,7 @@ void main_window::on_command(int id){
 			
 			
 		case ID_COLOR:
-			color=get_color(*this);
+			color=get_color(*this,color);
 			InvalidateRect(*this, NULL, true);
 
 			break;
@@ -122,9 +125,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hp, LPSTR cmdLine, int nShow)
 {
 	vsite::nwp::application app;
 	main_window wnd;
-	//wnd.setx(10);
-	//wnd.sety(10);
-	//wnd.setcolor(RGB(33, 33, 33));
 	wnd.create(0, WS_OVERLAPPEDWINDOW | WS_VISIBLE, _T("NWP"), (int)LoadMenu(hInstance, MAKEINTRESOURCE(IDM_MAIN)));	
 	return app.run();
 }

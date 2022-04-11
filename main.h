@@ -20,11 +20,6 @@ protected:
 	void on_paint(HDC hdc) override;
 	void on_command(int id) override;
 	void on_destroy() override;
-	int getx() { return x; };
-	int gety() { return y; };
-	COLORREF getcolor() { return color; };
-public:
-	void setx(int gx) { x = gx; };
-	void sety(int gy) { y = gy; };
-	void setcolor(COLORREF gcolor) { color = gcolor; };
+	
+
 };
