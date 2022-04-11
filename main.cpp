@@ -104,7 +104,7 @@ void main_window::on_command(int id){
 			
 			
 		case ID_COLOR:
-			setcolor(get_color(*this));
+			color=get_color(*this);
 			InvalidateRect(*this, NULL, true);
 
 			break;
