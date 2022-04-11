@@ -51,7 +51,7 @@ bool size_dialog::on_ok(){
 
 void main_window::on_paint(HDC hdc){
 
-	HBRUSH brush = CreateSolidBrush(getcolor());
+	HBRUSH brush = CreateSolidBrush(color);
 	HBRUSH brush2 = CreateSolidBrush(RGB(255,255,255));
 	RECT mr;
 	
