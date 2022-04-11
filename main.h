@@ -14,8 +14,8 @@ protected:
 
 class main_window : public vsite::nwp::window {
 private:
-	int x, y;
-	COLORREF color;
+	int x=8,y=8;
+	COLORREF color= RGB(33, 33, 33);
 protected:
 	void on_paint(HDC hdc) override;
 	void on_command(int id) override;

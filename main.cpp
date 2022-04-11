@@ -39,8 +39,9 @@ bool size_dialog::on_ok(){
 		x=get_int(IDC_EDIT1);
 		y=get_int(IDC_EDIT2);
 	}
-	catch (...)
+	catch (std::runtime_error)
 	{
+		MessageBox(*this, L"Please enter number", L"Warning", MB_OK | MB_ICONWARNING);
 		return false;
 	}
 	return true;
@@ -77,19 +78,26 @@ void main_window::on_paint(HDC hdc){
 
 void main_window::on_command(int id){
 	size_dialog s_dlg;
-	s_dlg.x = getx();
-	s_dlg.y = gety();
+	s_dlg.x = x;
+	s_dlg.y = y;
 	switch(id){
 		case ID_SIZE:
 			if (s_dlg.do_modal(0, *this) == IDOK) {
-				if (s_dlg.x < 0 || s_dlg.y < 0) {
-					MessageBox(*this, (LPCWSTR)"Please enter positive number", (LPCWSTR)"Warning", MB_OK | MB_ICONWARNING);
-				}
-				else {
-					setx(s_dlg.x);
-					sety(s_dlg.y);
-					InvalidateRect(*this, NULL, true);
-				}
+				
+					
+					
+					if (s_dlg.x < 0 || s_dlg.y < 0 ) {
+						MessageBox(*this, L"Please enter positive number", L"Warning", MB_OK | MB_ICONWARNING);
+					}
+					else {
+						x = s_dlg.x;
+						y = s_dlg.y;
+						InvalidateRect(*this, NULL, true);
+					}
+					 // Throw an exception when a problem arise
+				
+				
+				
 
 			}
 			break;
@@ -114,9 +122,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hp, LPSTR cmdLine, int nShow)
 {
 	vsite::nwp::application app;
 	main_window wnd;
-	wnd.setx(10);
-	wnd.sety(10);
-	wnd.setcolor(RGB(33, 33, 33));
+	//wnd.setx(10);
+	//wnd.sety(10);
+	//wnd.setcolor(RGB(33, 33, 33));
 	wnd.create(0, WS_OVERLAPPEDWINDOW | WS_VISIBLE, _T("NWP"), (int)LoadMenu(hInstance, MAKEINTRESOURCE(IDM_MAIN)));	
 	return app.run();
 }
