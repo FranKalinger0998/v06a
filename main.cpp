@@ -47,6 +47,10 @@ bool size_dialog::on_ok(){
 		MessageBox(*this, L"Please enter number", L"Warning", MB_OK | MB_ICONWARNING);
 		return false;
 	}
+	if (x < 0 || y < 0) {
+		MessageBox(*this, L"Please enter positive number", L"Warning", MB_OK | MB_ICONWARNING);
+		return false;
+	}
 	return true;
 	
 }
@@ -79,29 +83,18 @@ void main_window::on_paint(HDC hdc){
 }
 
 void main_window::on_command(int id){
-	
+	size_dialog s_dlg;
+	s_dlg.x = x;
+	s_dlg.y = y;
 	switch(id){
+		
 		case ID_SIZE:
-			size_dialog s_dlg;
-			s_dlg.x = x;
-			s_dlg.y = y;
+			
+			
 			if (s_dlg.do_modal(0, *this) == IDOK) {
-				
-					
-					
-					if (s_dlg.x < 0 || s_dlg.y < 0 ) {
-						MessageBox(*this, L"Please enter positive number", L"Warning", MB_OK | MB_ICONWARNING);
-					}
-					else {
-						x = s_dlg.x;
-						y = s_dlg.y;
-						InvalidateRect(*this, NULL, true);
-					}
-					 
-				
-				
-				
-
+				x = s_dlg.x;
+				y = s_dlg.y;
+				InvalidateRect(*this, NULL, true);
 			}
 			break;
 			
