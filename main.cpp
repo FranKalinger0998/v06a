@@ -16,11 +16,12 @@ COLORREF get_color(HWND parent, COLORREF color) {
 	
 	cc.Flags = CC_FULLOPEN | CC_RGBINIT;
 	cc.rgbResult = color;
+	
+	
+	
 	if (ChooseColor(&cc) == TRUE)
 		return cc.rgbResult;
-	else return cc.rgbResult;
-	
-	
+	else return color;
 
 
 	
