@@ -84,21 +84,21 @@ void main_window::on_paint(HDC hdc){
 }
 
 void main_window::on_command(int id){
-	size_dialog s_dlg;
-	s_dlg.x = x;
-	s_dlg.y = y;
+	
 	switch(id){
 		
-		case ID_SIZE:
-			
-			
-			if (s_dlg.do_modal(0, *this) == IDOK) {
-				x = s_dlg.x;
-				y = s_dlg.y;
-				InvalidateRect(*this, NULL, true);
-			}
-			break;
-			
+	case ID_SIZE: {
+
+		size_dialog s_dlg;
+		s_dlg.x = x;
+		s_dlg.y = y;
+		if (s_dlg.do_modal(0, *this) == IDOK) {
+			x = s_dlg.x;
+			y = s_dlg.y;
+			InvalidateRect(*this, NULL, true);
+		}
+		break;
+		}
 			
 		case ID_COLOR:
 			color=get_color(*this,color);
